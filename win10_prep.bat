@@ -1,6 +1,6 @@
 Title Disable UAC, M$ store and Welcome screen & Color 0A
 cd %systemroot%\system32
-call :IsAdmin
+call :AdminCheck
 
 :: Disable new user welcome dialogue
 reg.exe ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v EnableFirstLogonAnimation /t REG_DWORD /d 0 /f
@@ -25,8 +25,8 @@ Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\safer\codeidentifiers\2621
 Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\safer\codeidentifiers\262144\Paths\{d2c34ab2-529a-46b2-b293-fc853fce72ea}" /v "ItemData" /t REG_EXPAND_SZ /d "%%HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\ProgramFilesDir%%" /f
 pause
 
-:IsAdmin
-Reg.exe query "HKU\S-1-5-19\Environment"
+:AdminCheck
+openfiles > NUL 2>&1
 If Not %ERRORLEVEL% EQU 0 (
  Cls & Echo You must have administrator rights to continue ... 
  Pause & Exit
